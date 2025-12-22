@@ -4,10 +4,17 @@ import Engine.Enum.CommandType;
 import Storage.ArrayCollection;
 import Storage.Collection;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class ExecutionEngine {
-    private Collection currentCollection;
-    // TODO: Add Stack<Command> for Transactions
-    // TODO: Add Queue<Command> for Batch
+    private final Collection currentCollection;
+    private final Stack<Command> transactionStack = new Stack<>();
+    private final Queue<Command> batchQueue = new LinkedList<>();
+
+    private Boolean isTrsactionActive = false;
+    private Boolean isBatchActive = false;
 
     public ExecutionEngine() {
         this.currentCollection = new ArrayCollection();
