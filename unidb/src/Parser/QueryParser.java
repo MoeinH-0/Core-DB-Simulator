@@ -1,6 +1,11 @@
 package Parser;
 
+import Engine.Command;
+import Engine.Enum.CollectionType;
+import Engine.Enum.CommandType;
 import Engine.ExecutionEngine;
+
+import java.util.ArrayList;
 
 public class QueryParser {
     public static void parseAndExecute(String input, ExecutionEngine engine) {
@@ -8,16 +13,107 @@ public class QueryParser {
         String[] tokens = input.split("\\.");
         if (tokens.length == 0) return;
 
-        String cmd = tokens[2];
-        String [] args = new String [4];
+        CommandType commandType;
+        ArrayList<String> args = new ArrayList<>();
+        CollectionType collectionType = null;
+        String command = tokens[tokens.length - 1];
 
-        System.arraycopy(tokens, 0, args, 0, 3);
+        int index;
 
-        int index = tokens[2].indexOf("(");
+        if (tokens.length > 2)
+            collectionType = CollectionType.STUDENTS;
 
-        args[3] = tokens[2].substring(index + 1, tokens[2].length() - 2);
-        args[2] = args[2].substring(0, index - 1);
+        String subOneParameter =
+                command.substring(command.indexOf("(") + 2, command.length() - 2);
 
-        engine.executeCommand(cmd, args);
+        switch (command.split("\\(")[0]) {
+            case "insertOne":
+                commandType = CommandType.INSERT_ONE;
+
+                index = command.indexOf("id");
+                args.add(command.substring(index + 4, command.indexOf(",", index) - 1));
+
+                index = command.indexOf("name");
+                args.add(command.substring(index + 6, command.indexOf(",", index) - 2));
+
+                index = command.indexOf("gpa");
+                args.add(command.substring(index + 5, command.indexOf("}") - 1));
+                break;
+
+            case "findByID":
+                commandType = CommandType.FIND_BY_ID;
+
+                args.add(command.substring(command.indexOf("(") + 1, command.length() - 2));
+                break;
+
+            case "findAll":
+                commandType = CommandType.FIND_ALL;
+                break;
+
+            case "deleteOne":
+                commandType = CommandType.DELETE_ONE;
+
+                args.add(command.substring(command.indexOf("id") + 4, command.length() - 3));
+                break;
+
+            case "import":
+                commandType = CommandType.IMPORT;
+
+                args.add(command.substring(command.indexOf("\"\"") + 1, command.length() - 3));
+                break;
+
+            case "filter":
+                commandType = CommandType.FILTER;
+
+                index = command.indexOf("\"\"");
+                args.add(command.substring(index + 1, command.indexOf(",") - 2));
+
+                index = command.indexOf(",");
+                args.add(command.substring(index + 2, command.length() - 2));
+                break;
+
+            case "count":
+                commandType = CommandType.COUNT;
+                break;
+
+            case "sum":
+                commandType = CommandType.SUM;
+
+                args.add(subOneParameter);
+                break;
+
+            case "average":
+                commandType = CommandType.AVERAGE;
+
+                args.add(subOneParameter);
+                break;
+
+            case "beginTransaction":
+                commandType = CommandType.BEGIN_TRANSACTION;
+                break;
+
+            case "rollback":
+                commandType = CommandType.ROLLBACK;
+                break;
+
+            case "commit":
+                commandType = CommandType.COMMIT;
+                break;
+
+            case "start":
+                commandType = CommandType.START;
+                break;
+
+            case "execute":
+                commandType = CommandType.EXECUTE;
+                break;
+
+            default:
+                System.out.println("Unknown command.");
+                return;
+        }
+
+
+        engine.executeCommand(new Command(commandType, args, collectionType));
     }
 }

@@ -1,5 +1,6 @@
 package Engine;
 
+import Engine.Enum.CommandType;
 import Storage.ArrayCollection;
 import Storage.Collection;
 
@@ -12,8 +13,8 @@ public class ExecutionEngine {
         this.currentCollection = new ArrayCollection();
     }
 
-    public void executeCommand(String commandType, String[] args) {
-        if (commandType.equals("insertOne")) {
+    public void executeCommand(Command command) {
+        if (command.getCommandType().equals(CommandType.INSERT_ONE)){
             // TODO: Parse JSON-like args
             System.out.println("Executing insertOne...");
         }

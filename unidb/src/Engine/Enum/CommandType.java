@@ -13,6 +13,6 @@ public enum CommandType {
     BEGIN_TRANSACTION,
     ROLLBACK,
     COMMIT,
-    BATCH_START,
-    BATCH_EXECUTE
+    START,
+    EXECUTE
 }
