@@ -4,7 +4,7 @@ import Engine.Command;
 import Storage.Collection;
 
 public class FindById {
-    public void findById(Command command, Collection collection) {
+    public void execute(Command command, Collection collection) {
     }
 }
 

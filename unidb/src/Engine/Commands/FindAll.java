@@ -4,7 +4,7 @@ import Engine.Command;
 import Storage.Collection;
 
 public class FindAll {
-    public void findAll(Command command, Collection collection) {
+    public void execute(Command command, Collection collection) {
     }
 }
 

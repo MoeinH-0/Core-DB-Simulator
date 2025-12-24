@@ -4,7 +4,7 @@ import Engine.Command;
 import Storage.Collection;
 
 public class Average {
-    public void average(Command command, Collection collection) {
+    public void execute (Command command, Collection collection) {
     }
 }
 

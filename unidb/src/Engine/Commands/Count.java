@@ -4,7 +4,7 @@ import Engine.Command;
 import Storage.Collection;
 
 public class Count {
-    public void count(Command command, Collection collection) {
+    public void execute(Command command, Collection collection) {
     }
 }
 
