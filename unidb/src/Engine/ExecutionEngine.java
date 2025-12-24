@@ -47,7 +47,7 @@ public class ExecutionEngine {
 
         } else if (command.getCommandType().equals(CommandType.FIND_ALL)) {
             FindAll findAll = new FindAll();
-            findAll.execute(command, currentCollection);
+            findAll.execute(currentCollection);
 
 
         } else if (command.getCommandType().equals(CommandType.DELETE_ONE)) {

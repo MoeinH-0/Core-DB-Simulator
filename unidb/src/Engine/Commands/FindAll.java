@@ -1,10 +1,11 @@
 package Engine.Commands;
 
-import Engine.Command;
+import Presentation.ConsoleOutput;
 import Storage.Collection;
 
 public class FindAll {
-    public void execute(Command command, Collection collection) {
+    public void execute(Collection collection) {
+        ConsoleOutput.printStudents(collection.findAll());
     }
 }
 

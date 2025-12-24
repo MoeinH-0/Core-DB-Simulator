@@ -34,6 +34,21 @@ public class ConsoleOutput {
         }
     }
 
+    public static void printStudent(Student student) {
+        if (student == null) {
+            System.out.println(YELLOW + "No record found." + RESET);
+            return;
+        }
+
+        System.out.println(BLUE + "Student Record" + RESET);
+        System.out.println(GRAY + "──────────────" + RESET);
+
+        System.out.println("ID   : " + student.getId());
+        System.out.println("Name : " + student.getName());
+        System.out.println("GPA  : " + GREEN + String.format("%.2f", student.getGpa()) + RESET);
+    }
+
+
     public static void printCount(int count) {
         System.out.println(BLUE + "Total records: " + RESET + count);
     }

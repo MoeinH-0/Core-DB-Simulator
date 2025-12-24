@@ -5,6 +5,8 @@ import Storage.Collection;
 
 public class DeleteOne {
     public void execute(Command command, Collection collection) {
+        collection.deleteOne
+                (Integer.parseInt(command.getArguments().getFirst()));
     }
 }
 
