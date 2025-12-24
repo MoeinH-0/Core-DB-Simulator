@@ -3,6 +3,7 @@ package Engine;
 import Engine.Commands.*;
 import Engine.Enum.CommandType;
 import Models.Student;
+import FileManager.FileManager;
 import Storage.ArrayCollection;
 import Storage.Collection;
 
@@ -19,8 +20,13 @@ public class ExecutionEngine {
     private Boolean isTransactionActive = false;
     private Boolean isBatchActive = false;
 
+    private static final String DB_FILE = "unidb.json";
+    private final FileManager fileManager;
+
     public ExecutionEngine() {
         this.currentCollection = new ArrayCollection();
+        this.fileManager = new FileManager(DB_FILE);
+        this.fileManager.load(currentCollection);
     }
 
     public void executeCommand(Command command) {
@@ -110,7 +116,7 @@ public class ExecutionEngine {
         } else if (command.getCommandType().equals(CommandType.COMMIT)) {
             isTransactionActive = false;
             transactionStack.clear();
-
+            fileManager.save(currentCollection);
 
         } else if (command.getCommandType().equals(CommandType.START)) {
             isBatchActive = true;
@@ -125,3 +131,5 @@ public class ExecutionEngine {
         }
     }
 }
+
+

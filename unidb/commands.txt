@@ -1,6 +1,7 @@
 db.students.insertOne({id: 101, name: "Ali", gpa: 18.5})
 db.students.findByID(101)
 db.students.deleteOne({id: 101})
+db.students.deleteOne({id: 101})
 db.students.findByID(101)
 db.students.import("students")
 db.students.findAll()
