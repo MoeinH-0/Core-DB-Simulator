@@ -8,6 +8,8 @@ import java.util.List;
 public class LinkedListCollection implements Collection {
 
     LinkedList<Student> students = new LinkedList<>();
+    private final Filter filterFunction = new Filter();
+
 
     public void insertOne(Student student) {
         students.add(student);
@@ -26,5 +28,9 @@ public class LinkedListCollection implements Collection {
 
     public List<Student> findAll() {
         return new ArrayList<>(students);
+    }
+
+    public List<Student> filter(String field, String value) {
+        return filterFunction.filter(field, value,students);
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public class ArrayCollection implements Collection {
     private final ArrayList<Student> students = new ArrayList<>();
+    private final Filter filterFunction = new Filter();
 
     public void insertOne(Student student) {
         students.add(student);
@@ -24,6 +25,10 @@ public class ArrayCollection implements Collection {
 
     public List<Student> findAll() {
         return new ArrayList<>(students);
+    }
+
+    public List<Student> filter(String field, String value) {
+        return filterFunction.filter(field, value,students);
     }
 
 }

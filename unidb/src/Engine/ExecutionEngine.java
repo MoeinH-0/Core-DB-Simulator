@@ -21,10 +21,33 @@ public class ExecutionEngine {
     }
 
     public void executeCommand(Command command) {
-        if (command.getCommandType().equals(CommandType.INSERT_ONE)){
-            // TODO: Parse JSON-like args
-            System.out.println("Executing insertOne...");
+        if (command.getCommandType().equals(CommandType.INSERT_ONE)) {
+
+        } else if (command.getCommandType().equals(CommandType.FIND_BY_ID)) {
+
+        } else if (command.getCommandType().equals(CommandType.FIND_ALL)) {
+
+        } else if (command.getCommandType().equals(CommandType.DELETE_ONE)) {
+
+        } else if (command.getCommandType().equals(CommandType.IMPORT)) {
+
+        } else if (command.getCommandType().equals(CommandType.FILTER)) {
+
+        } else if (command.getCommandType().equals(CommandType.COUNT)) {
+
+        } else if (command.getCommandType().equals(CommandType.SUM)) {
+
+        } else if (command.getCommandType().equals(CommandType.AVERAGE)) {
+
+        } else if (command.getCommandType().equals(CommandType.BEGIN_TRANSACTION)) {
+
+        } else if (command.getCommandType().equals(CommandType.ROLLBACK)) {
+
+        } else if (command.getCommandType().equals(CommandType.COMMIT)) {
+
+        } else if (command.getCommandType().equals(CommandType.START)) {
+
+        } else if (command.getCommandType().equals(CommandType.EXECUTE)) {
+
         }
-        // TODO: Handle others
     }
-}
