@@ -23,27 +23,24 @@ public class QueryParser {
         if (tokens.length > 2)
             collectionType = CollectionType.STUDENTS;
 
-        String subOneParameter =
-                command.substring(command.indexOf("(") + 2, command.length() - 2);
-
         switch (command.split("\\(")[0]) {
             case "insertOne":
                 commandType = CommandType.INSERT_ONE;
 
                 index = command.indexOf("id");
-                args.add(command.substring(index + 4, command.indexOf(",", index) - 1));
+                args.add(command.substring(index + 4, command.indexOf(",")));
 
                 index = command.indexOf("name");
-                args.add(command.substring(index + 6, command.indexOf(",", index) - 2));
+                args.add(command.substring(index + 7, command.indexOf(",", index) - 1));
 
                 index = command.indexOf("gpa");
-                args.add(command.substring(index + 5, command.indexOf("}") - 1));
+                args.add(command.substring(index + 5, command.indexOf("}")));
                 break;
 
             case "findByID":
                 commandType = CommandType.FIND_BY_ID;
 
-                args.add(command.substring(command.indexOf("(") + 1, command.length() - 2));
+                args.add(command.substring(command.indexOf("(") + 1, command.length() - 1));
                 break;
 
             case "findAll":
@@ -53,23 +50,23 @@ public class QueryParser {
             case "deleteOne":
                 commandType = CommandType.DELETE_ONE;
 
-                args.add(command.substring(command.indexOf("id") + 4, command.length() - 3));
+                args.add(command.substring(command.indexOf("id") + 4, command.length() - 2));
                 break;
 
             case "import":
                 commandType = CommandType.IMPORT;
 
-                args.add(command.substring(command.indexOf("\"\"") + 1, command.length() - 3));
+                args.add(command.substring(command.indexOf("\"") + 1, command.length() - 2) + ".csv");
                 break;
 
             case "filter":
                 commandType = CommandType.FILTER;
 
-                index = command.indexOf("\"\"");
-                args.add(command.substring(index + 1, command.indexOf(",") - 2));
+                index = command.indexOf("\"");
+                args.add(command.substring(index + 1, command.indexOf(",") - 1));
 
                 index = command.indexOf(",");
-                args.add(command.substring(index + 2, command.length() - 2));
+                args.add(command.substring(index + 3, command.length() - 2));
                 break;
 
             case "count":
@@ -79,13 +76,13 @@ public class QueryParser {
             case "sum":
                 commandType = CommandType.SUM;
 
-                args.add(subOneParameter);
+                args.add(command.substring(command.indexOf("(") + 2, command.length() - 2));
                 break;
 
             case "average":
                 commandType = CommandType.AVERAGE;
 
-                args.add(subOneParameter);
+                args.add(command.substring(command.indexOf("(") + 2, command.length() - 2));
                 break;
 
             case "beginTransaction":

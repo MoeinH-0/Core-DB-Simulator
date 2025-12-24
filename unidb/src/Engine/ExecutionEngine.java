@@ -24,7 +24,10 @@ public class ExecutionEngine {
     }
 
     public void executeCommand(Command command) {
-        if (isBatchActive) {
+        if (isBatchActive &&
+                (command.getCommandType() == CommandType.INSERT_ONE ||
+                        command.getCommandType() == CommandType.DELETE_ONE)) {
+
             batchQueue.add(command);
             return;
         }
@@ -98,15 +101,15 @@ public class ExecutionEngine {
 
 
         } else if (command.getCommandType().equals(CommandType.ROLLBACK)) {
-            while (!transactionStack.empty())
-                executeCommand(transactionStack.pop());
-
             isTransactionActive = false;
 
+            while (!transactionStack.empty()) {
+                executeCommand(transactionStack.pop());
+            }
 
         } else if (command.getCommandType().equals(CommandType.COMMIT)) {
-            transactionStack.clear();
             isTransactionActive = false;
+            transactionStack.clear();
 
 
         } else if (command.getCommandType().equals(CommandType.START)) {
@@ -114,10 +117,11 @@ public class ExecutionEngine {
 
 
         } else if (command.getCommandType().equals(CommandType.EXECUTE)) {
-            while (!transactionStack.empty())
-                executeCommand(batchQueue.poll());
-
             isBatchActive = false;
+
+            while (!batchQueue.isEmpty()) {
+                executeCommand(batchQueue.poll());
+            }
         }
     }
 }

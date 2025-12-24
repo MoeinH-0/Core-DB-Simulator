@@ -5,45 +5,53 @@ import Models.Student;
 import Storage.Collection;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Import {
     public void execute(Command command, Collection collection) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(command.getArguments().getFirst()));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        String filename = command.getArguments().getFirst();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            boolean firstLine = true;
 
-        String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
 
-        while (true) {
-            try {
-                if ((line = reader.readLine()) == null) break;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                if (firstLine) {
+                    firstLine = false;
+                    String[] headerParts = line.split(",");
+                    if (headerParts.length >= 1 && !isInteger(headerParts[0].trim())) {
+                        continue;
+                    }
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length < 3) continue;
+
+                try {
+                    int id = Integer.parseInt(parts[0].trim());
+                    String name = parts[1].trim();
+                    double gpa = Double.parseDouble(parts[2].trim());
+
+                    Student student = new Student(id, name, gpa);
+                    collection.insertOne(student);
+                } catch (NumberFormatException _) {
+                }
             }
-
-            String[] parts = line.split(",");
-
-            int id = Integer.parseInt(parts[0].trim());
-            String name = parts[1].trim();
-            double gpa = Double.parseDouble(parts[2].trim());
-
-            Student student = new Student(id, name, gpa);
-            collection.insertOne(student);
-        }
-
-        try {
-            reader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
-

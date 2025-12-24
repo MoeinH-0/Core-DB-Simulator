@@ -33,6 +33,7 @@ public class ConsoleOutput {
                     RESET
             );
         }
+        System.out.println();
     }
 
     public static void printStudent(Student student) {
@@ -48,21 +49,25 @@ public class ConsoleOutput {
         System.out.println("ID   : " + student.getId());
         System.out.println("Name : " + student.getName());
         System.out.println("GPA  : " + GREEN + String.format("%.2f", student.getGpa()) + RESET);
+        System.out.println();
     }
 
 
     public static void printCount(int count) {
         System.out.println();
         System.out.println(BLUE + "Total records: " + RESET + count);
+        System.out.println();
     }
 
     public static void printSum(double sum) {
         System.out.println();
         System.out.println(GREEN + "Sum " + ": " + String.format("%.2f", sum) + RESET);
+        System.out.println();
     }
 
     public static void printAverage(double average) {
         System.out.println();
         System.out.println(GREEN + "Average " + ": " + String.format("%.2f", average) + RESET);
+        System.out.println();
     }
 }

@@ -12,15 +12,14 @@ public class ArrayCollection implements Collection {
     }
 
     public void deleteOne(int id) {
-        students.remove(id);
+        students.removeIf(s -> s.getId() == id);
     }
 
     public Student findByID(int id) {
-        for (Student s : students) {
-            if (s.getId() == id) {
+        for (Student s : students)
+            if (s.getId() == id)
                 return s;
-            }
-        }
+
         return null;
     }
 
