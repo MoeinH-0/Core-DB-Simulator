@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LinkedListCollection implements Collection {
 
-    LinkedList<Student> students = new LinkedList<>();
+    private final LinkedList<Student> students = new LinkedList<>();
 
 
     public void insertOne(Student student) {
