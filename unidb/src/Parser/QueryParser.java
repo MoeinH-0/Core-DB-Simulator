@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class QueryParser {
     public static void parseAndExecute(String input, ExecutionEngine engine) {
 
-        String[] tokens = input.split("\\.");
+        String[] tokens = input.split("\\.(?!\\d)");
         if (tokens.length == 0) return;
 
         CommandType commandType;

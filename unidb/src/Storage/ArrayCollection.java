@@ -16,10 +16,12 @@ public class ArrayCollection implements Collection {
     }
 
     public Student findByID(int id) {
-        if (students.get(id) != null)
-            return students.get(id);
-        else
-            return null;
+        for (Student s : students) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+        return null;
     }
 
     public List<Student> findAll() {

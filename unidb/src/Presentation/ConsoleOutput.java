@@ -14,6 +14,7 @@ public class ConsoleOutput {
     private static final String YELLOW = "\u001B[33m";
 
     public static void printStudents(List<Student> students) {
+        System.out.println();
         if (students == null || students.isEmpty()) {
             System.out.println(YELLOW + "No records found." + RESET);
             return;
@@ -35,6 +36,7 @@ public class ConsoleOutput {
     }
 
     public static void printStudent(Student student) {
+        System.out.println();
         if (student == null) {
             System.out.println(YELLOW + "No record found." + RESET);
             return;
@@ -50,14 +52,17 @@ public class ConsoleOutput {
 
 
     public static void printCount(int count) {
+        System.out.println();
         System.out.println(BLUE + "Total records: " + RESET + count);
     }
 
     public static void printSum(double sum) {
+        System.out.println();
         System.out.println(GREEN + "Sum " + ": " + String.format("%.2f", sum) + RESET);
     }
 
     public static void printAverage(double average) {
+        System.out.println();
         System.out.println(GREEN + "Average " + ": " + String.format("%.2f", average) + RESET);
     }
 }
