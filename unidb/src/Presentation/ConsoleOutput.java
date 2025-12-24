@@ -38,11 +38,11 @@ public class ConsoleOutput {
         System.out.println(BLUE + "Total records: " + RESET + count);
     }
 
-    public static void printSum(double sum, String fieldName) {
-        System.out.println(GREEN + "Sum of " + fieldName + ": " + String.format("%.2f", sum) + RESET);
+    public static void printSum(double sum) {
+        System.out.println(GREEN + "Sum " + ": " + String.format("%.2f", sum) + RESET);
     }
 
-    public static void printAverage(double average, String fieldName) {
-        System.out.println(GREEN + "Average " + fieldName + ": " + String.format("%.2f", average) + RESET);
+    public static void printAverage(double average) {
+        System.out.println(GREEN + "Average " + ": " + String.format("%.2f", average) + RESET);
     }
 }

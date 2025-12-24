@@ -80,17 +80,17 @@ public class ExecutionEngine {
 
         } else if (command.getCommandType().equals(CommandType.COUNT)) {
             Count count = new Count();
-            count.execute(command, currentCollection);
+            count.execute(currentCollection);
 
 
         } else if (command.getCommandType().equals(CommandType.SUM)) {
             Sum sum = new Sum();
-            sum.execute(command, currentCollection);
+            sum.execute(currentCollection);
 
 
         } else if (command.getCommandType().equals(CommandType.AVERAGE)) {
             Average average = new Average();
-            average.execute(command, currentCollection);
+            average.execute(currentCollection);
 
 
         } else if (command.getCommandType().equals(CommandType.BEGIN_TRANSACTION)) {
