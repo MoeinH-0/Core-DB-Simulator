@@ -23,10 +23,13 @@ public class ExecutionEngine {
     private static final String DB_FILE = "unidb.json";
     private final FileManager fileManager;
 
+    private final IndexManager indexManager;
+
     public ExecutionEngine() {
         this.currentCollection = new ArrayCollection();
         this.fileManager = new FileManager(DB_FILE);
         this.fileManager.load(currentCollection);
+        this.indexManager = new IndexManager(currentCollection);
     }
 
     public void executeCommand(Command command) {
@@ -40,7 +43,7 @@ public class ExecutionEngine {
 
         if (command.getCommandType().equals(CommandType.INSERT_ONE)) {
             InsertOne insertOne = new InsertOne();
-            insertOne.execute(command, currentCollection);
+            insertOne.execute(command, currentCollection, indexManager);
 
             if (isTransactionActive) {
                 ArrayList<String> args = new ArrayList<>();
@@ -61,7 +64,7 @@ public class ExecutionEngine {
 
         } else if (command.getCommandType().equals(CommandType.DELETE_ONE)) {
             DeleteOne deleteOne = new DeleteOne();
-            deleteOne.execute(command, currentCollection);
+            deleteOne.execute(command, currentCollection, indexManager);
 
             if (isTransactionActive) {
                 Student student =
@@ -84,7 +87,7 @@ public class ExecutionEngine {
 
         } else if (command.getCommandType().equals(CommandType.FILTER)) {
             Filter filter = new Filter();
-            filter.execute(command, currentCollection);
+            filter.execute(command, currentCollection, indexManager);
 
 
         } else if (command.getCommandType().equals(CommandType.COUNT)) {
@@ -128,6 +131,9 @@ public class ExecutionEngine {
             while (!batchQueue.isEmpty()) {
                 executeCommand(batchQueue.poll());
             }
+        }
+        else if (command.getCommandType().equals(CommandType.CREAT_INDEX)){
+            indexManager.createIndex(command);
         }
     }
 }

@@ -1,60 +1,27 @@
 package Benchmark;
 
-import Storage.ArrayCollection;
-import Storage.Collection;
-import Storage.LinkedListCollection;
-import Models.Student;
-
-import java.util.Random;
+import Index.Tree.AVLTree;
+import Index.Tree.BST;
 
 public class BenchmarkMain {
 
-    private static final int SIZE = 50000;
-
     public static void main(String[] args) {
-        run(new ArrayCollection(), "ArrayCollection");
-        run(new LinkedListCollection(), "LinkedListCollection");
-    }
+        BST<Integer,String> bst = new BST<>(Integer::compareTo);
+        AVLTree<Integer,String> avlTree = new AVLTree<>(Integer::compareTo);
 
-    private static void run(Collection collection, String name) {
-        long start;
-        long end;
-
-        Random random = new Random();
-        start = System.currentTimeMillis();
-        for (int i = 1; i <= SIZE; i++) {
-            collection.insertOne(new Student(i, "Name" + i, random.nextDouble(20)));
-        }
-        end = System.currentTimeMillis();
-        print(name, "insert 50000", end - start);
-
-        start = System.currentTimeMillis();
-        for (int i = 1; i <= 500; i++) {
-            collection.deleteOne(i);
-        }
-        end = System.currentTimeMillis();
-        print(name, "delete first 500", end - start);
-
-        start = System.currentTimeMillis();;
-        for (int i = SIZE; i > SIZE - 500; i--) {
-            collection.deleteOne(i);
-        }
-        end = System.currentTimeMillis();
-        print(name, "delete last 500", end - start);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 100000; i++)
+            bst.insertOne(i,"bst");
+        bst.search(50000);
+        long end = System.currentTimeMillis();
+        System.out.println("BST Search time: " + (end - start));
 
 
         start = System.currentTimeMillis();
-        for (int i = 0; i < 500; i++) {
-            int id = random.nextInt(SIZE) + 1;
-            collection.findByID(id);
-        }
+        for (int i = 0; i < 100000; i++)
+            avlTree.insertOne(i,"bst");
+        avlTree.search(50000);
         end = System.currentTimeMillis();
-        print(name, "find random 500", end - start);
-
-        System.out.println();
-    }
-
-    private static void print(String structure, String operation, long time) {
-        System.out.println(structure + " | " + operation + " | " + time + " ms");
+        System.out.println("AVLTree Search time: " + (end - start));
     }
 }

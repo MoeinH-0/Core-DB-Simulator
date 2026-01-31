@@ -104,7 +104,15 @@ public class QueryParser {
             case "execute":
                 commandType = CommandType.EXECUTE;
                 break;
+            case "createIndex":
+                commandType = CommandType.CREAT_INDEX;
+                index = command.indexOf("\"");
+                args.add(command.substring(index + 1, command.indexOf(",") - 1));
 
+                index = command.indexOf(",");
+                args.add(command.substring(index + 3, command.length() - 2));
+
+                break;
             default:
                 System.out.println("Unknown command.");
                 return;

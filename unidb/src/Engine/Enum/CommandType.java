@@ -14,5 +14,6 @@ public enum CommandType {
     ROLLBACK,
     COMMIT,
     START,
-    EXECUTE
+    EXECUTE,
+    CREAT_INDEX
 }
