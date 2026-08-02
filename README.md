@@ -1,33 +1,31 @@
 # Core DB Simulator 🗄️
 
-Core DB Simulator is a comprehensive, strictly OOP-driven database engine implemented purely in **Java**. Designed to simulate the internal architecture of relational and document databases, this engine features a robust execution pipeline, modular storage collections, advanced tree-based indexing, file-backed data persistence, and a built-in benchmarking suite.
+A custom-built, document-based NoSQL database engine simulator (inspired by MongoDB) developed entirely in **Java**. This project is a deep dive into core computer science concepts, built from scratch using custom data structures to demonstrate how structural choices directly impact database performance and query optimization.
 
-## 🏗️ System Architecture & Pipeline
+## 🧱 Custom Data Structures & Storage
 
-The core engine relies heavily on strict abstraction and the **Command Design Pattern** to ensure scalability and a clean codebase:
-* **Execution Engine:** The `ExecutionEngine` acts as the central orchestrator, dispatching database operations based on strictly typed enums (`CommandType`).
-* **Query Parsing:** Raw input is processed via the `QueryParser`, translating textual user commands into executable context.
-* **Presentation Layer:** The `ConsoleOutput` class manages the user interface and formatted terminal rendering for query results.
+Instead of relying on standard library collections, the core of this engine is powered by diverse, manually implemented data structures to handle real-world search and storage complexities:
+*   **Storage Layer:** Abstracted via a core `Collection` interface, with concrete implementations for both **Dynamic Arrays** (`ArrayCollection`) and **Doubly Linked Lists** (`LinkedListCollection`) to compare mutation performance.
+*   **Tree Indexes:** Custom implementations of **AVL Tree** (with auto-balancing rotations for $O(\log n)$ operations) and standard **Binary Search Tree (BST)**.
+*   **Hash & Inverted Indexes:** Includes a custom `HashIndex` utilizing collision chaining for $O(1)$ lookups, and an `InvertedIndex` explicitly designed for full-text token searches.
 
-## 💾 Storage, Collections & Persistence
+## 🏗️ Strict 3-Layer Architecture
 
-While the engine operates primarily in-memory for high-speed execution, it guarantees data safety through explicit persistence layers:
-* **File Management (Persistence):** The `FileManager` handles file I/O operations, allowing the database of `Student` entities to be fully serialized to a file and reloaded across different sessions without data loss.
-* **Modular Collections:** The storage layer is abstracted via a core `Collection` interface. It supports concrete implementations like `ArrayCollection` and `LinkedListCollection`, allowing the engine to swap underlying memory layouts seamlessly.
+To maintain modularity and avoid spaghetti code, the system enforces a strict top-down three-layer architecture:
+*   **1. Query Parser:** Tokenizes raw string inputs, detects command types, and extracts parameters to generate executable `Command` objects.
+*   **2. Execution Engine & Optimizer:** The core orchestrator. It manages transaction rollbacks via a Stack, sequential batch processing via a Queue, and features a **Smart Query Optimizer** that intercepts queries to utilize indexes before falling back to linear scans.
+*   **3. Storage Engine:** Manages in-memory data operations completely independent of the query logic, seamlessly interacting with the `FileManager` for robust data serialization and persistence.
 
 ## 🛠️ Supported Database Commands
 
-Every database operation is completely isolated into its own handler class under the `Engine.Commands` namespace, ensuring the Single Responsibility Principle:
-* **CRUD Operations:** `InsertOne`, `DeleteOne`, `FindById`, `FindAll`
-* **Aggregations:** `Count`, `Sum`, `Average`
-* **Querying & Utils:** `Filter`, `Import`
+The architecture utilizes the **Command Design Pattern** to isolate database operations, enforcing the Single Responsibility Principle:
+*   **CRUD:** `InsertOne`, `DeleteOne`, `FindById`, `FindAll`
+*   **Aggregations:** `Count`, `Sum`, `Average`
+*   **Utilities:** `Filter`, `Import` (supports bulk loading from CSV files)
 
-## 🧱 Advanced Indexing & Data Structures
+## ⚡ Benchmarking & Big O Analysis
 
-UniDB implements highly complex data structures from scratch to handle real-world database search complexities via the `IndexManager`:
-* **Tree Indexes:** Custom implementations of **AVL Tree** and **Binary Search Tree (BST)** for hierarchical data sorting and optimized range-based search algorithms.
-* **Hash & Inverted Indexes:** Includes `HashIndex` for constant-time $O(1)$ key-value lookups, and an `InvertedIndex` explicitly designed for token-based text search and filtering.
-
-## ⚡ Performance & Benchmarking
-
-To ensure the theoretical algorithms perform well in practice, a dedicated Benchmark module (`BenchmarkMain` & `Benchmark2Main`) is integrated. This suite allows for empirical performance comparisons between different storage structures (Array vs. LinkedList) and indexing strategies (Trees vs. Hashes) under heavy read/write loads.
+A dedicated benchmarking suite is integrated to empirically test theoretical time complexities under heavy read/write loads:
+*   Compares the degradation of standard BSTs against balanced AVL Trees during sequential data inserts.
+*   Graphs performance metrics of array vs. linked list mutations.
+*   Measures execution times across Full Scans, BST Indexes, and Hash Indexes for massive datasets.
